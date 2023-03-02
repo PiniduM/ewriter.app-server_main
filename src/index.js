@@ -20,12 +20,12 @@ const app = express();
 app.use(cors());
 app.use(json());
 
-app.use("/ewriter",authRouter);
+app.use("/auth",authRouter);
 
 app.use("/s5002",s5002Router);
 
 
 app.listen(5001, () => {
     console.log("listening to port 5001");
-    clearExpiredVerifications(300000);
+    //clearExpiredVerifications(300000);
 });
