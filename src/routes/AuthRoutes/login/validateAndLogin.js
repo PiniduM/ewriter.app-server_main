@@ -66,7 +66,7 @@ const validateAndLogin = (userData, res) => {
             id,
           };
           const options = {
-            expiresIn: "1h",
+            expiresIn: "3h",
           };
 
           // add 1h to cookie time

@@ -3,7 +3,6 @@ import jwt from "jsonwebtoken"
 const ValidateLoginOrHandleErrors = (loginToken,res) => {
 
 const jwtSecret = process.env.JWTSECRET;
-
 try {
   return jwt.verify(loginToken, jwtSecret);
 } catch (err) {
@@ -16,5 +15,4 @@ try {
 }
 
 }
-
 export default ValidateLoginOrHandleErrors;

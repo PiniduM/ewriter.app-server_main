@@ -10,3 +10,6 @@ s5002Router.post("/profilecreated",(req,res) => updateProfile_created(req.body,r
 
 
 export default s5002Router;
+
+
+//manage requests from server 5002
