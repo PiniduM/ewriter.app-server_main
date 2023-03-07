@@ -15,7 +15,6 @@ const updateProfile_created = (data,res) => {
 
     db.query(sql,values)
     .then(result => {
-        console.log(result);
         if(result[0].affectedRows === 1) {
             res.status(200).send("updated");
             return;
@@ -24,8 +23,7 @@ const updateProfile_created = (data,res) => {
             return;
         }
     })
-    .catch ( err => {
-        console.log(err);
+    .catch ( () => {
         res.status(406).send("error");
         return;
     })

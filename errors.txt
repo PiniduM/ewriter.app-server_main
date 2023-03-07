@@ -1,0 +1,5 @@
+vc/alredy send is came as an error receive it as a result or handle error ;
+handle duplication errors - register from;
+//verifing gmail did not received - received (typo in test);
+
+two servers deployed and connected to mysql successfully make a full investigationabout error handling in cient side (too many mistakes and unhandled errors)

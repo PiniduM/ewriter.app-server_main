@@ -5,7 +5,6 @@ import db from "../../../controllers/maindbConnection.js";
 import sendVerificationgmail from "../../../controllers/emailVerification/sendVerificationEmail.js";
 
 const validateAndLogin = (userData, res) => {
-  console.log("login req came");
 
   const identifier = userData.identifier;
 
@@ -40,10 +39,8 @@ const validateAndLogin = (userData, res) => {
   db.query(sql, values)
     .then((result) => {
       const users = result[0];
-      console.log(users);
       if (users.length !== 1) {
         res.status(406).send("username_pwd_incorrect");
-        console.log("username_pwd_incorrect");
         return;
       } else {
         const user = users[0];
@@ -54,11 +51,12 @@ const validateAndLogin = (userData, res) => {
         const profileCreated = user.profile_created;
 
         if (verified !== "y") {
-          sendVerificationgmail(gmail, res);
-          console.log("verify_gmail");
+          sendVerificationgmail(gmail)
+            .then((gmail) => res.status(200).json({gmail}))
+            .catch(() => res.status(500).send("unknown_error"));
           return;
         } else {
-          const secret_key = "secret123";
+          const secret_key = process.env.JWTSECRET;
 
           const payload = {
             username,
@@ -77,13 +75,11 @@ const validateAndLogin = (userData, res) => {
             token,
             profileCreated,
           });
-          console.log("logged_in");
           return;
         }
       }
     })
     .catch((err) => {
-      console.log(err);
       res.status(500).send("unknown_error");
       return;
     });
