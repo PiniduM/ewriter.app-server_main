@@ -23,7 +23,7 @@ app.use(cors());
 
 const ALLOWED_ORIGINS = process.env.ALLOWED_ORIGINS.split(",");
 app.use((req, res, next) => {
-  console.log(req.header.origin);
+  console.log(req.headers.origin);
   if (ALLOWED_ORIGINS.includes(req.headers.origin)) next();
   else res.status(500).send("unexpected_error");
 });
