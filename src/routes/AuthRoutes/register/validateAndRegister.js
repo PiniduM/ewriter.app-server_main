@@ -52,7 +52,7 @@ const validateAndRegister = async (userData, res) => {
           res.status(500).send("unknown_error");
         }
       } else {
-        res.ststus(500).send("unknown_error");
+        res.status(500).send(err);
       }
     });
 };
