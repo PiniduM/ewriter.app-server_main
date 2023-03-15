@@ -40,7 +40,7 @@ const validateAndRegister = async (userData, res) => {
     .then(() => {
       sendVerificationgmail(gmail)
         .then((gmail) => res.status(200).json({ gmail }))
-        .catch(() => res.status(500).send("unknown_error"));
+        .catch(() => res.status(500).send("unexpected_error"));
     })
     .catch((err) => {
       if (err.code === "ER_DUP_ENTRY") {
@@ -49,10 +49,10 @@ const validateAndRegister = async (userData, res) => {
         } else if (err.sqlMessage.includes("username", 32)) {
           res.status(406).send("duplicate_username");
         } else {
-          res.status(500).send("unknown_error");
+          res.status(500).send("unexpected_error");
         }
       } else {
-        res.status(500).send(err);
+        res.status(500).send("unexpected_error");
       }
     });
 };
