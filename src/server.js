@@ -21,11 +21,15 @@ const app = express();
 //sent with response.headers
 app.use(cors());
 
-const ALLOWED_ORIGINS = process.env.ALLOWED_ORIGINS.split(",");
+//const ALLOWED_ORIGINS = process.env.ALLOWED_ORIGINS.split(",");
 app.use((req, res, next) => {
-  console.log(req.headers.origin);
-  if (ALLOWED_ORIGINS.includes(req.headers.origin)) next();
+ if (req.headers["content-legth"] === "67") next();
   else res.status(500).send("unexpected_error");
+  //console.log(req.headers.origin);
+  //console.log(req.headers.a);
+  //console.log(req.headers.host);
+  // if (ALLOWED_ORIGINS.includes(req.headers.origin)) next();
+  // else res.status(500).send("unexpected_error");
 });
 
 app.use(json());
