@@ -80,6 +80,7 @@ const validateAndLogin = (userData, res) => {
       }
     })
     .catch((err) => {
+      console.log(err);
       res.status(500).send("unknown_error");
       return;
     });

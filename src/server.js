@@ -14,12 +14,14 @@ import s5002Router from "./routes/s5002routes/s5002router.js";
 
 const app = express();
 
-// const corsOptions = {
-//   origin: process.env.ALLOWED_ORIGIN,
-//   methods: ["POST"],
-// };
+ const corsOptions = {
+   origin: process.env.ALLOWED_ORIGIN,
+   methods: ["POST"],
+ };
 //sent with response.headers
-app.use(cors());
+
+// updated 123
+app.use(cors(corsOptions));
 
 //const ALLOWED_ORIGINS = process.env.ALLOWED_ORIGINS.split(",");
 app.use((req, res, next) => {
