@@ -1,4 +1,4 @@
-import db from "../maindbConnection.js";
+import pool from "../maindbPool.js";
 
 import transporter from "./nodemailerTransporter.js";
 import createMail from "./createMailOptions.js";
@@ -11,7 +11,7 @@ const sendVerificationEmail = (gmailAddress) => {
   const sql =
     "REPLACE INTO verifing_users (gmail, verification_code, expiration_date) VALUES (?, ?, DEFAULT);";
   const values = [gmailAddress, verificationCode];
-  db.query(sql, values)
+  pool.query(sql, values)
     .then(() => {
       const mail = createMail(gmailAddress, verificationCode);
       transporter.sendMail(mail, (error, info) => {

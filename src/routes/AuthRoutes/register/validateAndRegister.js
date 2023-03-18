@@ -1,6 +1,5 @@
-import db from "../../../controllers/maindbConnection.js";
-
 import sendVerificationgmail from "../../../controllers/emailVerification/sendVerificationEmail.js";
+import queryOnMainDB from "../../../controllers/queryOnMainDB.js";
 
 const validateAndRegister = async (userData, res) => {
   const username = userData.username;
@@ -35,7 +34,7 @@ const validateAndRegister = async (userData, res) => {
   const sql = "INSERT INTO users (username, gmail, password) VALUES (?, ?, ?);";
   const values = [username, gmail, password];
 
-  db.query(sql, values)
+  queryOnMainDB(sql, values)
     .then(() => {
       sendVerificationgmail(gmail)
         .then((gmail) => res.status(200).json({ gmail }))

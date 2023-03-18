@@ -1,6 +1,5 @@
 import Jwt from "jsonwebtoken";
-
-import db from "../../../controllers/maindbConnection.js";
+import queryOnMainDB from "../../../controllers/queryOnMainDB.js";
 
 import sendVerificationgmail from "../../../controllers/emailVerification/sendVerificationEmail.js";
 
@@ -37,7 +36,7 @@ const validateAndLogin = (userData, res) => {
     userameIdentifier ? "username" : "gmail"
   } = ? AND password = ? LIMIT 1;`;
   const values = [identifier, password];
-  db.query(sql, values)
+  queryOnMainDB(sql, values)
     .then((result) => {
       const users = result[0];
       if (users.length !== 1) {

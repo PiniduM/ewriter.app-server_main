@@ -1,4 +1,4 @@
-import db from "../../../controllers/maindbConnection.js";
+import queryOnMainDB from "../../../controllers/queryOnMainDB.js";
 
 const verifyGmail = (data, res) => {
   const gmail = data.gmail;
@@ -22,14 +22,14 @@ const verifyGmail = (data, res) => {
 
   const sqlQ1 = `DELETE FROM verifing_users WHERE gmail = ? AND verification_code = ? LIMIT 1`;
   const valuesQ1 = [gmail, verificationCode];
-  db.query(sqlQ1, valuesQ1)
+  queryOnMainDB(sqlQ1, valuesQ1)
     .then((result) => {
       if (result[0].affectedRows === 1) {
         //update user table
         const sqlQ2 =
           "UPDATE users SET verified = 'y' WHERE gmail = ? LIMIT 1;";
         const valuesQ2 = [gmail];
-        db.query(sqlQ2, valuesQ2)
+        queryOnMainDB(sqlQ2, valuesQ2)
           .then((result) => {
             if (result[0].affectedRows === 1) {
               res.status(200).send("verified");

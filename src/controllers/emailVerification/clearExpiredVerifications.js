@@ -1,4 +1,4 @@
-import db from "../maindbConnection.js";
+import queryOnMainDB from "../queryOnMainDB.js";
 
 const clearExpiredVerifications = (interval) => {
     const sql = 'DELETE FROM verifing_users WHERE expiration_date < NOW()';
@@ -10,7 +10,7 @@ const clearExpiredVerifications = (interval) => {
         //         console.log(result)
         //     }
         // })
-        db.query(sql)
+        queryOnMainDB(sql)
         .then(result => console.log(result))
         .catch(err => console.log(err));
 

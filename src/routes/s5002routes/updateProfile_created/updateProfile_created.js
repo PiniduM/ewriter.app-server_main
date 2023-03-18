@@ -1,4 +1,4 @@
-import db from "../../../controllers/maindbConnection.js";
+import queryOnMainDB from "../../../controllers/queryOnMainDB.js";
 import validateLoginOrHandleErrors from "../../../controllers/validateLoginOrHandleErrors.js"
 
 const updateProfile_created = (data,res) => {
@@ -13,7 +13,7 @@ const updateProfile_created = (data,res) => {
     const sql = "UPDATE users SET profile_created = 'y' WHERE id = ? AND profile_created = 'n' ;";
     const values = [id];
 
-    db.query(sql,values)
+    queryOnMainDB(sql,values)
     .then(result => {
         if(result[0].affectedRows === 1) {
             res.status(200).send("updated");
