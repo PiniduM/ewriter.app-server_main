@@ -5,7 +5,6 @@ import db from "../../../controllers/maindbConnection.js";
 import sendVerificationgmail from "../../../controllers/emailVerification/sendVerificationEmail.js";
 
 const validateAndLogin = (userData, res) => {
-
   const identifier = userData.identifier;
 
   //expecting a username if email sends logics changes dynamically
@@ -14,13 +13,11 @@ const validateAndLogin = (userData, res) => {
   const usernameRegex = /^(?=.*\d)(?=.*[a-z])[a-zA-Z\d]{6,20}$/;
   const gmailRegex = /^[a-zA-Z0-9._%+-]+@(gmail|googlemail)\.com$/i;
 
-  if (usernameRegex.test(identifier)){
+  if (usernameRegex.test(identifier)) {
     //do nothing
-  }
-  else if (gmailRegex.test(identifier)){
+  } else if (gmailRegex.test(identifier)) {
     userameIdentifier = false;
-  }
-  else {
+  } else {
     res.status(406).send("invalid_identifier");
     return;
   }
@@ -34,7 +31,11 @@ const validateAndLogin = (userData, res) => {
     return;
   }
 
-  const sql = `SELECT ${userameIdentifier ? "gmail" : "username"},id,verified,profile_created FROM users WHERE ${userameIdentifier ? "username" : "gmail"} = ? AND password = ? LIMIT 1;`;
+  const sql = `SELECT ${
+    userameIdentifier ? "gmail" : "username"
+  },id,verified,profile_created FROM users WHERE ${
+    userameIdentifier ? "username" : "gmail"
+  } = ? AND password = ? LIMIT 1;`;
   const values = [identifier, password];
   db.query(sql, values)
     .then((result) => {
@@ -46,14 +47,17 @@ const validateAndLogin = (userData, res) => {
         const user = users[0];
         const id = user.id;
         const username = userameIdentifier ? identifier : user.username;
-        const gmail = userameIdentifier ?  user.gmail : identifier;
+        const gmail = userameIdentifier ? user.gmail : identifier;
         const verified = user.verified;
         const profileCreated = user.profile_created;
 
         if (verified !== "y") {
           sendVerificationgmail(gmail)
-            .then((gmail) => res.status(200).json({gmail}))
-            .catch(() => res.status(500).send("unknown_error"));
+            .then((gmail) => res.status(200).json({ gmail }))
+            .catch((err) => {
+              console.log(err);
+              res.status(500).send("gmail_error");
+            });
           return;
         } else {
           const secret_key = process.env.JWTSECRET;
@@ -81,11 +85,10 @@ const validateAndLogin = (userData, res) => {
     })
     .catch((err) => {
       console.log(err);
-      res.status(500).send("unknown_error");
+      res.status(500).send("db_error");
       return;
     });
 };
-
 
 // use callbacks method in mysql if performance issues came db.query in mysql2/promise returns columns definitions
 export default validateAndLogin;
