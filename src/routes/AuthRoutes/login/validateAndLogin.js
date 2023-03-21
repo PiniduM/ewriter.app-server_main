@@ -59,17 +59,17 @@ const validateAndLogin = (userData, res) => {
             });
           return;
         } else {
-          const secret_key = process.env.JWTSECRET;
-
+          
           const payload = {
             username,
             gmail,
             id,
           };
           const options = {
-            expiresIn: "3h",
+            expiresIn: process.env.JWTEXP,
           };
-
+          
+          const secret_key = process.env.JWTSECRET;
           // add 1h to cookie time
           const token = Jwt.sign(payload, secret_key, options);
 
